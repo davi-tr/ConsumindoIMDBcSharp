@@ -1,11 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using QuickType;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -18,18 +13,16 @@ namespace ConsumindoIMDB
 
 
 
-            HttpClient client = new HttpClient { BaseAddress = new Uri($"https://imdb-api.com/pt/API/Title/{LoadAPI()}/") };
-            var response = await client.GetAsync("tt4975722");
+            HttpClient client = new HttpClient { BaseAddress = new Uri($"https://imdb-api.com/en/API/Top250Movies/{LoadAPI()}/") };
+            var response = await client.GetAsync("");
             var content = await response.Content.ReadAsStringAsync();
-            string pretty = PrettyJson(content);
+            //string pretty = PrettyJson(content);
 
-            var filme = JsonConvert.DeserializeObject<Imdb>(content);
-            Console.WriteLine("Nome do filme: " + filme.FullTitle);
-            Console.WriteLine("\nPlot em portugues:" + filme.PlotLocal);
-            Console.WriteLine("Estrelado por: ");
-            foreach (var i in filme.StarList)
+            var filme = JsonConvert.DeserializeObject<TopMovies>(content);
+            foreach (var i in filme.Items)
             {
-                Console.WriteLine(i.Name);
+                string numeroFormatado = i.ImDbRatingCount.ToString("N0");
+                Console.WriteLine(i.Rank + ": "+ i.Title + "-> "+ i.ImDbRating  + "("+numeroFormatado+")");
             }
 
 
