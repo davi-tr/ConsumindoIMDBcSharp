@@ -1,5 +1,7 @@
 ﻿namespace QuickType
 {
+    using System;
+    using System.Collections.Generic;
 
     public partial class Imdb
     {
@@ -18,17 +20,17 @@
         public bool PlotLocalIsRtl { get; set; }
         public string Awards { get; set; }
         public string Directors { get; set; }
-        public CompanyListElement[] DirectorList { get; set; }
+        public List<CompanyListElement> DirectorList { get; set; }
         public string Writers { get; set; }
-        public CompanyListElement[] WriterList { get; set; }
+        public List<CompanyListElement> WriterList { get; set; }
         public string Stars { get; set; }
-        public CompanyListElement[] StarList { get; set; }
+        public List<CompanyListElement> StarList { get; set; }
         public ActorList[] ActorList { get; set; }
         public object FullCast { get; set; }
         public string Genres { get; set; }
         public CountryListElement[] GenreList { get; set; }
         public string Companies { get; set; }
-        public CompanyListElement[] CompanyList { get; set; }
+        public List<CompanyListElement> CompanyList { get; set; }
         public string Countries { get; set; }
         public CountryListElement[] CountryList { get; set; }
         public string Languages { get; set; }

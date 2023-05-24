@@ -22,13 +22,18 @@ namespace ConsumindoIMDB
             var response = await client.GetAsync("tt4975722");
             var content = await response.Content.ReadAsStringAsync();
             string pretty = PrettyJson(content);
-            Console.WriteLine(pretty);
 
             var filme = JsonConvert.DeserializeObject<Imdb>(content);
-            //Console.WriteLine(filme.Title);
+            Console.WriteLine("Nome do filme: " + filme.FullTitle);
+            Console.WriteLine("\nPlot em portugues:" + filme.PlotLocal);
+            Console.WriteLine("Estrelado por: ");
+            foreach (var i in filme.StarList)
+            {
+                Console.WriteLine(i.Name);
+            }
 
 
-            
+
         }
         public static string PrettyJson(string unPrettyJson)
         {
