@@ -20,3 +20,4 @@ namespace QuickType
         public long ImDbRatingCount { get; set; }
     }
 }
+
