@@ -25,6 +25,9 @@ namespace ConsumindoIMDB
                         
                         await PrintSearchMovie(Console.ReadLine());
                         break;
+                    case 3:
+                        Console.WriteLine("Informe o nome da série");
+                        break;
                     default:
                         Console.WriteLine("Valor invalido");
                         break;
@@ -37,7 +40,7 @@ namespace ConsumindoIMDB
         {
             Console.WriteLine("\n1 - Para exibir uma lista com top 250 filmes");
             Console.WriteLine("\n2 - Pesquisar um filme");
-            //Console.WriteLine("\n1 - Para exibir uma lista com top 250 filmes");
+            Console.WriteLine("\n3 - Pesquisar serie");
             //Console.WriteLine("\n1 - Para exibir uma lista com top 250 filmes");
 
         }
