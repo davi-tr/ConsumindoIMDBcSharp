@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using QuickType;
 using System.Text.Json;
 using System.Threading.Tasks;
+using SeriesIMDB;
 
 namespace ConsumindoIMDB
 {
@@ -27,6 +28,8 @@ namespace ConsumindoIMDB
                         break;
                     case 3:
                         Console.WriteLine("Informe o nome da série");
+
+                        await PrintSearchSeries(Console.ReadLine());
                         break;
                     default:
                         Console.WriteLine("Valor invalido");
@@ -94,6 +97,43 @@ namespace ConsumindoIMDB
 
             }
             
+        }
+        public static async Task PrintSearchSeries(string NomeSerie)
+        {
+            HttpClient client = new HttpClient { BaseAddress = new Uri($"https://imdb-api.com/en/API/SearchSeries/{LoadAPI()}/") };
+            var response = await client.GetAsync($"{NomeSerie}");
+            var content = await response.Content.ReadAsStringAsync();
+            //string pretty = PrettyJson(content);
+
+            var serie = JsonConvert.DeserializeObject<ImbdSeries>(content);
+            int j = 0;
+            foreach (var i in serie.Results)
+            {
+                j++;
+                if (j == 1)
+                {
+                    Console.WriteLine("ID: " + i.Id);
+                    Console.WriteLine("Titulo: " + i.Title);
+                    Console.WriteLine("Descrição: " + i.Description);
+
+                    Console.WriteLine("Gostaria de fazer uma busca detalhada sobre a Serie?");
+                    Console.WriteLine("(S) - Sim ou (N) - Não");
+                    string resp = Console.ReadLine();
+                    if (resp == "S")
+                    {
+                        await PrintSearchMovieID(i.Id);
+                        return;
+                    }
+                    else if (resp == "s")
+                    {
+                        await PrintSearchMovieID(i.Id);
+                        return;
+                    }
+
+                }
+
+            }
+
         }
 
         public static async Task PrintSearchMovieID(string id)
