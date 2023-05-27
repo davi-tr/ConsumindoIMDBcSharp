@@ -4,7 +4,7 @@ using QuickType;
 using System.Text.Json;
 using System.Threading.Tasks;
 using SeriesIMDB;
-
+using BuscaSerieIMDB;
 namespace ConsumindoIMDB
 {
     class Program
@@ -121,12 +121,12 @@ namespace ConsumindoIMDB
                     string resp = Console.ReadLine();
                     if (resp == "S")
                     {
-                        await PrintSearchMovieID(i.Id);
+                        await PrintSearchSerieID(i.Id);
                         return;
                     }
                     else if (resp == "s")
                     {
-                        await PrintSearchMovieID(i.Id);
+                        await PrintSearchSerieID(i.Id);
                         return;
                     }
 
@@ -153,7 +153,30 @@ namespace ConsumindoIMDB
             }
         }
 
-            public static string PrettyJson(string unPrettyJson)
+        public static async Task PrintSearchSerieID(string id)
+        {
+            HttpClient client = new HttpClient { BaseAddress = new Uri($"https://imdb-api.com/pt/API/Title/{LoadAPI()}/") };
+            var response = await client.GetAsync($"{id}");
+            var content = await response.Content.ReadAsStringAsync();
+            //string pretty = PrettyJson(content);
+
+            var serie = JsonConvert.DeserializeObject<SerieBuscaDetalhada>(content);
+
+            string numeroFormatado = serie.ImDbRatingVotes.ToString("N0");
+
+            Console.WriteLine("Nome da Serie: " + serie.FullTitle);
+            Console.WriteLine("Nota:"+serie.ImDbRating+"("+numeroFormatado+")");
+            Console.WriteLine("Total de temporadas:"+serie.TvSeriesInfo.Seasons.Length);
+            Console.WriteLine("\nPlot em portugues:" + serie.PlotLocal);
+            Console.WriteLine("\n\nEstrelado por: ");
+            
+            foreach (var i in serie.StarList)
+            {
+                Console.WriteLine(i.Name);
+            }
+        }
+
+        public static string PrettyJson(string unPrettyJson)
         {
             var options = new JsonSerializerOptions()
             {
